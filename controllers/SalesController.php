@@ -9,6 +9,8 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
+use yii\helpers\ArrayHelper;
+use app\models\Products;
 
 /**
  * SalesController implements the CRUD actions for SalesByUser model.
@@ -74,14 +76,33 @@ class SalesController extends Controller
      */
     public function actionCreate()
     {
+
         $model = new SalesByUser();
         $user_id = Yii::$app->user->identity->user_id;
         $model->user_id = $user_id;
+        $products = ArrayHelper::map(Products::find()->all(), 'product_id', 'name');
+
+        if ($user_id = Yii::$app->request->post('user_id')) {
+            $quantity = Yii::$app->request->post('quantity');
+            $product = Products::find()->where(['product_id'=>$product_id])->one();
+            if ($product->stock < $quantity) {
+                Yii::$app->getSession()->setFlash('error', 'Insufficient stock');
+                return $this->render('create', [
+                    'model' => $model,
+                    'products' => $products,
+                ]);
+            } else {
+                $model->sale_value = $product->price * $quantity;
+            }
+
+        }
+
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->sale_id]);
         } else {
             return $this->render('create', [
                 'model' => $model,
+                'products' => $products,
             ]);
         }
     }
@@ -95,12 +116,14 @@ class SalesController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $products = ArrayHelper::map(Products::find()->all(), 'product_id', 'name');
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->sale_id]);
         } else {
             return $this->render('update', [
                 'model' => $model,
+                'products' => $products,
             ]);
         }
     }

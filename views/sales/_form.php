@@ -31,9 +31,16 @@ use dosamigos\datepicker\DatePicker;
         ]);
     ?>
 
-    <?= $form->field($model, 'sale_value')->textInput() ?>
+    <!-- <?= $form->field($model, 'sale_value')->textInput() ?> -->
 
     <?= $form->field($model, 'city')->textInput(['maxlength' => true]) ?>
+
+    <?= $form->field($model, 'product_id')->dropDownList($products) ?>
+
+    <?= $form->field($model, 'quantity')->textInput(['maxlength' => true]) ?>
+
+
+    <!-- <?= Html::activeDropDownList($model, 'product_id', $products) ?> -->
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

@@ -42,6 +42,8 @@ AppAsset::register($this);
             ['label' => 'SignUp', 'url' => ['/site/register'], 'visible'=>Yii::$app->user->isGuest],
             ['label' => 'Sales', 'url' => ['/sales/index'], 'visible'=>!Yii::$app->user->isGuest],
             ['label' => 'New Sale', 'url' => ['/sales/create'],'visible'=>!Yii::$app->user->isGuest],
+            ['label' => 'Products', 'url' => ['/products/index'], 'visible'=>!Yii::$app->user->isGuest],
+            ['label' => 'New Product', 'url' => ['/products/create'],'visible'=>!Yii::$app->user->isGuest],
             ['label' => 'Users', 'url' => ['/users/index'],'visible'=>!Yii::$app->user->isGuest],
             ['label' => 'New User', 'url' => ['/users/create'],'visible'=>!Yii::$app->user->isGuest],
 

@@ -29,11 +29,12 @@ class SalesByUser extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['user_id', 'sale_date', 'sale_value', 'city'], 'required'],
-            [['sale_id', 'user_id'], 'integer'],
+            [['user_id', 'sale_date', 'city', 'product_id'], 'required'],
+            [['sale_id', 'user_id', 'product_id'], 'integer'],
             [['sale_date'], 'safe'],
             [['sale_value'], 'number', 'max' => 999999999],
             [['city'], 'string', 'max' => 100, 'min' => 4],
+            [['quantity'], 'integer', 'min' => 1],
         ];
     }
 
@@ -46,6 +47,8 @@ class SalesByUser extends \yii\db\ActiveRecord
         return [
             'sale_id' => 'Sale ID',
             'user_id' => 'User ID',
+            'product_id' => 'Product ID',
+            'quantity' => 'Quantity',
             'sale_date' => 'Sale Date',
             'sale_value' => 'Sale Value',
             'city' => 'City',
