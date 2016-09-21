@@ -128,6 +128,11 @@ class SiteController extends Controller
         $model = new Users();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            \Yii::$app->db->createCommand()
+            ->insert('auth_assignment', [
+                     'item_name' => 'Buyer',
+                     'user_id' => $model->user_id,])
+            ->execute();
             Yii::$app->getSession()->setFlash('success', 'Registered Successfully, please login');
             return $this->redirect(['login']);
         } else {

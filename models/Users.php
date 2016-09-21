@@ -58,6 +58,11 @@ class Users extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
         ];
     }
 
+    public function relations()
+    {
+        'sale' => array(self::BELONGS_TO, 'User', 'user_id'),
+    }
+
     /**
      * @inheritdoc
      */

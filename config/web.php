@@ -18,6 +18,9 @@ $config = [
             'identityClass' => 'app\models\Users',
             'enableAutoLogin' => false,
         ],
+        'authManager' => [
+            'class' => 'yii\rbac\DbManager',
+        ],
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
@@ -46,6 +49,21 @@ $config = [
             ],
         ],
         */
+    ],
+    'modules' => [
+        'rbac' =>  [
+            'class' => 'johnitvn\rbacplus\Module',
+            'userModelClassName'=>null,
+            'userModelIdField'=>'user_id',
+            'userModelLoginField'=>'username',
+            'userModelLoginFieldLabel'=>null,
+            'userModelExtraDataColumls'=>null,
+            'beforeCreateController'=>null,
+            'beforeAction'=>null
+        ],
+        'gridview' =>  [
+            'class' => '\kartik\grid\Module',
+        ],
     ],
     'params' => $params,
 ];

@@ -40,13 +40,46 @@ AppAsset::register($this);
             // ['label' => 'About', 'url' => ['/site/about']],
             // ['label' => 'Contact', 'url' => ['/site/contact']],
             ['label' => 'SignUp', 'url' => ['/site/register'], 'visible'=>Yii::$app->user->isGuest],
-            ['label' => 'Sales', 'url' => ['/sales/index'], 'visible'=>!Yii::$app->user->isGuest],
-            ['label' => 'New Sale', 'url' => ['/sales/create'],'visible'=>!Yii::$app->user->isGuest],
-            ['label' => 'Products', 'url' => ['/products/index'], 'visible'=>!Yii::$app->user->isGuest],
-            ['label' => 'New Product', 'url' => ['/products/create'],'visible'=>!Yii::$app->user->isGuest],
-            ['label' => 'Users', 'url' => ['/users/index'],'visible'=>!Yii::$app->user->isGuest],
-            ['label' => 'New User', 'url' => ['/users/create'],'visible'=>!Yii::$app->user->isGuest],
 
+            ['label' => 'Sales', 'url' => ['/sales/index'],
+                                                'visible'=>(!Yii::$app->user->isGuest && 
+                                                            Yii::$app->user->can('see-sales'))],
+
+            ['label' => 'New Sale', 'url' => ['/sales/create'],
+                                                'visible'=>(!Yii::$app->user->isGuest && 
+                                                            Yii::$app->user->can('sell'))],
+
+            ['label' => 'Products', 'url' => ['/products/index'],
+                                                'visible'=>(!Yii::$app->user->isGuest && 
+                                                            Yii::$app->user->can('manage-products'))],
+
+            ['label' => 'New Product', 'url' => ['/products/create'],
+                                                'visible'=>(!Yii::$app->user->isGuest && 
+                                                            Yii::$app->user->can('manage-products'))],
+
+            ['label' => 'Users', 'url' => ['/users/index'],
+                                                'visible'=>(!Yii::$app->user->isGuest && 
+                                                            Yii::$app->user->can('manage-users'))],
+
+            ['label' => 'New User', 'url' => ['/users/create'],
+                                                'visible'=>(!Yii::$app->user->isGuest && 
+                                                            Yii::$app->user->can('manage-users'))],
+
+            ['label' => 'Rule', 'url' => ['/rbac/rule'],
+                                                'visible'=>(!Yii::$app->user->isGuest && 
+                                                            Yii::$app->user->can('manage-roles'))],
+
+            ['label' => 'Permission', 'url' => ['/rbac/permission'],
+                                                'visible'=>(!Yii::$app->user->isGuest && 
+                                                            Yii::$app->user->can('manage-roles'))],
+
+            ['label' => 'Role', 'url' => ['/rbac/role'],
+                                                'visible'=>(!Yii::$app->user->isGuest && 
+                                                            Yii::$app->user->can('manage-roles'))],
+
+            ['label' => 'Assignment', 'url' => ['/rbac/assignment'],
+                                                'visible'=>(!Yii::$app->user->isGuest && 
+                                                            Yii::$app->user->can('manage-roles'))],
 
             Yii::$app->user->isGuest ? (
                 (
@@ -66,7 +99,6 @@ AppAsset::register($this);
     ]);
     NavBar::end();
     ?>
-
     <div class="container">
         <?= Breadcrumbs::widget([
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
