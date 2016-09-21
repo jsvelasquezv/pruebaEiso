@@ -81,10 +81,14 @@ class SalesController extends Controller
         $user_id = Yii::$app->user->identity->user_id;
         $model->user_id = $user_id;
         $products = ArrayHelper::map(Products::find()->all(), 'product_id', 'name');
+        $params = [];
+        $product = [];
+        if (Yii::$app->request->post()) {
 
-        if ($user_id = Yii::$app->request->post('user_id')) {
-            $quantity = Yii::$app->request->post('quantity');
-            $product = Products::find()->where(['product_id'=>$product_id])->one();
+            $params = Yii::$app->request->post('SalesByUser');
+            $quantity = $params['quantity'];
+            $product = Products::find()->where(['product_id'=>$params['product_id']])->one();
+
             if ($product->stock < $quantity) {
                 Yii::$app->getSession()->setFlash('error', 'Insufficient stock');
                 return $this->render('create', [
@@ -92,13 +96,18 @@ class SalesController extends Controller
                     'products' => $products,
                 ]);
             } else {
+                $model->quantity = $quantity;
                 $model->sale_value = $product->price * $quantity;
+                $model->load(Yii::$app->request->post());
+                $product->stock = $product->stock - $quantity;
+                $model->save();
+                $product->save();
+                if ($model->save() && $product->save()) {
+                return $this->redirect(['view', 'id' => $model->sale_id]);
+                }
             }
 
-        }
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->sale_id]);
+        
         } else {
             return $this->render('create', [
                 'model' => $model,
@@ -118,8 +127,32 @@ class SalesController extends Controller
         $model = $this->findModel($id);
         $products = ArrayHelper::map(Products::find()->all(), 'product_id', 'name');
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->sale_id]);
+        $params = [];
+        $product = [];
+        if (Yii::$app->request->post()) {
+
+            $params = Yii::$app->request->post('SalesByUser');
+            $quantity = $params['quantity'];
+            $product = Products::find()->where(['product_id'=>$params['product_id']])->one();
+
+            if ($product->stock < $quantity) {
+                Yii::$app->getSession()->setFlash('error', 'Insufficient stock');
+                return $this->render('create', [
+                    'model' => $model,
+                    'products' => $products,
+                ]);
+            } else {
+                $model->quantity = $quantity;
+                $model->sale_value = $product->price * $quantity;
+                $model->load(Yii::$app->request->post());
+                $product->stock = $product->stock - $quantity;
+                $model->save();
+                $product->save();
+                if ($model->save() && $product->save()) {
+                return $this->redirect(['view', 'id' => $model->sale_id]);
+                }
+            }
+
         } else {
             return $this->render('update', [
                 'model' => $model,

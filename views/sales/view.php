@@ -11,11 +11,6 @@ $this->params['breadcrumbs'][] = ['label' => 'Sales By Users', 'url' => ['index'
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="sales-by-user-view">
-    <?php if(Yii::$app->session->hasFlash('error')): ?>
-            <div class="alert alert-danger" role="alert">
-                <?= Yii::$app->session->getFlash('error') ?>
-            </div>
-        <?php endif; ?>
 
     <h1><?= Html::encode($this->title) ?></h1>
 

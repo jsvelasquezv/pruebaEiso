@@ -11,6 +11,11 @@ $this->params['breadcrumbs'][] = ['label' => $model->sale_id, 'url' => ['view', 
 $this->params['breadcrumbs'][] = 'Update';
 ?>
 <div class="sales-by-user-update">
+    <?php if(Yii::$app->session->hasFlash('error')): ?>
+            <div class="alert alert-danger" role="alert">
+                <?= Yii::$app->session->getFlash('error') ?>
+            </div>
+    <?php endif; ?>
 
     <h1><?= Html::encode($this->title) ?></h1>
 
