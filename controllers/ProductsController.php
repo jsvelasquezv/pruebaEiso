@@ -8,6 +8,9 @@ use app\models\ProductsSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use app\models\SalesByUser;
+use yii\data\ActiveDataProvider;
+
 
 /**
  * ProductsController implements the CRUD actions for Products model.
@@ -51,8 +54,14 @@ class ProductsController extends Controller
      */
     public function actionView($id)
     {
+        $query = SalesByUser::find()->where(['product_id' => $id]);
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+        ]);
+
         return $this->render('view', [
             'model' => $this->findModel($id),
+            'dataProvider' => $dataProvider,
         ]);
     }
 

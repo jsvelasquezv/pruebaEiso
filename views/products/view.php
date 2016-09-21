@@ -2,6 +2,8 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use yii\grid\GridView;
+
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Products */
@@ -32,6 +34,21 @@ $this->params['breadcrumbs'][] = $this->title;
             'name',
             'price',
             'stock',
+        ],
+    ]) ?>
+
+    <?= GridView::widget([
+        'dataProvider' => $dataProvider,
+        'columns' => [
+             ['attribute' => 'user_id',
+                'header' => 'User Name',
+                'value' => function( $data ) {
+                    return $data->user->username;
+                },
+            ],
+            'sale_date',
+            'sale_value',
+            'city',
         ],
     ]) ?>
 

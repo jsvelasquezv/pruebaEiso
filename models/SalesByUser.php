@@ -38,6 +38,16 @@ class SalesByUser extends \yii\db\ActiveRecord
         ];
     }
 
+    public function getUser()
+    {
+        return $this->hasOne(Users::className(), ['user_id' => 'user_id']);
+    }
+
+    public function getProduct()
+    {
+        return $this->hasOne(Products::className(), ['product_id' => 'product_id']);
+    }
+
 
     /**
      * @inheritdoc

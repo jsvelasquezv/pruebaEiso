@@ -20,7 +20,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => $dataProvider,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-             ['attribute' => 'user_id',
+            ['attribute' => 'user_id',
                 'header' => 'User Name',
                 'value' => function( $data ) {
                     return $data->user->username;
@@ -30,6 +30,12 @@ $this->params['breadcrumbs'][] = $this->title;
             'user_id',
             'sale_date',
             'sale_value',
+            ['attribute' => 'product_id',
+                'header' => 'Product Name',
+                'value' => function( $data ) {
+                    return $data->product->name;
+                },
+            ],
             'city',
 
             ['class' => 'yii\grid\ActionColumn'],
